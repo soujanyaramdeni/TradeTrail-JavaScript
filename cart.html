@@ -1,0 +1,159 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-image: url("https://www.bing.com/th/id/OGC.6dc38fb74adec03352fb907823b7bdfd?pid=1.7&rurl=https%3a%2f%2fi.pinimg.com%2foriginals%2f5a%2fd0%2f47%2f5ad047a18772cf0488a908d98942f9bf.gif&ehk=6oXeCdieDxzGC7wjwkdoNa4u%2bZfBd9YAuS5t4b2%2fHN0%3d");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      #clear {
+        padding:1%;
+        width: 80px;
+        border-radius: 5px;
+        font-size: large;
+        color: aliceblue;
+        background-color: rgb(4, 4, 4);
+        margin-bottom: 1%;
+      }
+      div {
+        display: flex;
+        flex-wrap: wrap;
+        float: center;
+      }
+      .boxstyle {
+        text-align: center;
+        display: inline-block;
+        justify-content: space-between;
+        padding: 1%;
+        width: 300px;
+        margin: 15px;
+        border: 2px solid rgb(138, 134, 134);
+        /* border-radius: 10px; */
+        /* box-shadow: 0px 0px 4px 6px rgb(227, 224, 224); */
+        background-color:rgb(164, 160, 165);
+      }
+      #image{
+        border: 2px solid rgb(9, 9, 9);
+        /* border-radius: 10px; */
+      }
+      @media screen and(max-width:600px) {
+        #clear{
+          width:50%;
+        }
+        .boxstyle{
+          width:90%;
+        }
+      }
+    </style>
+  </head>
+<body><br>
+    <button id="clear">Back</button><br><br>
+    <div id="div"></div>
+    
+    <center><script>
+      let btn = document.getElementById("clear");
+      btn.addEventListener("click", () => {
+        window.history.back();
+      });
+
+      let cartgetting = localStorage.getItem("cart");
+      console.log(cartgetting);
+      cartgetting == null
+        ? (cartgetting = [])
+        : (cartgetting = JSON.parse(cartgetting));
+
+      let divget = document.getElementById("div");
+
+      cartgetting.map((val, ind) => {
+        let divcreat = document.createElement("div");
+        divcreat.className = "boxstyle";
+
+        let img = document.createElement("img");
+        img.setAttribute("src", val.image);
+        img.style.width = "100px";
+        img.id="image";
+
+        let id = document.createElement("p");
+        // id.innerText = `Item-id : ${val.id}`;
+
+        let category = document.createElement("h3");
+        category.innerText = `Category : ${val.category}`;
+
+        let desc = document.createElement("p");
+        desc.innerText = `Description : ${val.description}`;
+
+        let price = document.createElement("p");
+        price.innerText = `Price : ${val.price}`;
+
+        let quantityLabel = document.createElement("label");
+        quantityLabel.innerText = "Quantity: ";
+    let quantityInput = document.createElement("input");
+    quantityInput.type = "number";
+    quantityInput.value = 1; 
+    quantityInput.min = 1; 
+    quantityInput.style.width="100px";
+    let addButton = document.createElement("button");
+    addButton.innerText = "+";
+    addButton.addEventListener("click", () => {
+      quantityInput.value = parseInt(quantityInput.value) + 1;
+    });
+
+    let removeButton = document.createElement("button");
+    removeButton.innerText = "-";
+    removeButton.addEventListener("click", () => {
+      if (parseInt(quantityInput.value) > 1) {
+        quantityInput.value = parseInt(quantityInput.value) - 1;
+      }
+    });
+
+        let btnbuy = document.createElement("button");
+        btnbuy.innerText = "Buy Now";
+        btnbuy.style.padding = "10px";
+        btnbuy.style.marginRight = "5%";
+        btnbuy.style.width = "130px";
+        btnbuy.style.color="red"
+        btnbuy.style.backgroundColor = "aquawhite";
+        // btnbuy.style.borderRadius = "10px";
+
+        btnbuy.addEventListener("click", () => {
+          window.location.assign("./buy.html");
+        });
+
+        let btndel = document.createElement("button");
+        btndel.innerText = "Delete Item";
+        btndel.style.padding = "10px";
+        btndel.style.marginLeft = "5%";
+        btndel.style.width = "130px";
+        btndel.style.color="red"
+        btndel.style.backgroundColor = "aquawhite";
+        // btndel.style.borderRadius = "10px";
+
+        btndel.addEventListener("click", () => {
+          cartgetting.splice(ind, 1);
+          localStorage.setItem("cart", JSON.stringify(cartgetting));
+          divget.removeChild(divcreat);
+        });
+
+        divcreat.appendChild(img);
+        divcreat.appendChild(id);
+        divcreat.appendChild(category);
+        divcreat.appendChild(desc);
+        divcreat.appendChild(price);
+        divcreat.appendChild(quantityLabel);
+        divcreat.appendChild(quantityInput);
+        divcreat.appendChild(addButton);
+        divcreat.appendChild(removeButton);
+        divcreat.appendChild(btnbuy);
+        divcreat.appendChild(btndel);
+        divget.appendChild(divcreat);
+      });
+      // console.log(itemget)
+    </script></center>
+  </body>
+</html>
